@@ -44,3 +44,14 @@ jobs:
       with:
         name: ${{ matrix.name }}
         path: build/release
+
+    - name: upload to releases
+      uses: xresloader/upload-to-github-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        file: build/release/*
+        tags: true
+        draft: false
+        overwrite: true
+
