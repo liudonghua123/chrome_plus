@@ -46,13 +46,18 @@ jobs:
       with:
         name: ${{ matrix.name }}
         path: build/release
+        
+    - name: compress the build files for release publish
+      working-directory: build/release/
+      run: |
+        7z a -r chrome_plus_${{ matrix.name }}_${{ github.ref_name }}.zip *
 
     - name: upload to releases
       uses: xresloader/upload-to-github-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        file: build/release/*
+        file: build/release/chrome_plus_*.zip
         tags: true
         draft: false
         overwrite: true
